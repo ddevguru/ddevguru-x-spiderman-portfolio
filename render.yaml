@@ -8,7 +8,7 @@ services:
   - type: web
     name: deepak-spiderman-portfolio
     runtime: static
-    buildCommand: npm install && npm run build
+    buildCommand: rm -f package-lock.json && npm install --include=optional && npm run build
     staticPublishPath: ./dist
     pullRequestPreviewsEnabled: false
 
