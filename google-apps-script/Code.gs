@@ -14,7 +14,7 @@ const INITIAL_SEEDED_NOTES = [
     category: "lore",
     colorId: "crimson",
     title: "Crazy Good Spider-Sense UI!",
-    message: "That Sunflower vinyl player and the precision coordinate HUD are straight out of the Spider-Verse! Keep swinging high, Haikel! 🕷️⚡",
+    message: "That Sunflower vinyl player and the precision coordinate HUD are straight out of the Spider-Verse! Keep swinging high, Deepak! 🕷️⚡",
     timestamp: "2 hours ago",
     reactions: JSON.stringify({ web: 24, love: 18, zap: 31, fire: 42 }),
     rotation: -1.8,

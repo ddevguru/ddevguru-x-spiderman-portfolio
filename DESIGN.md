@@ -42,7 +42,7 @@ tokens:
     crosshair_size: "11px"
 ---
 
-# 🕷️ DESIGN.md - Spider-Man Portfolio (Muhammad Haikel Saleh)
+# 🕷️ DESIGN.md - Spider-Man Portfolio (Deepak Mishra)
 
 > **Design Specification resmi sesuai standar Google Stitch, VoltAgent awesome-design-md, Produx Kinetic Studio & Heron AI Precision HUD.**  
 > Mengintegrasikan estetika *Marvel Spider-Man*, *Into The Spider-Verse (Miles Morales)*, *Precision Telemetry Coordinate HUD*, *Chromatic Aberration Glitch*, dan *High-Tech BNSP Certified Network Terminal*.

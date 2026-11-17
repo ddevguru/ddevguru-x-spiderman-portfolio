@@ -56,7 +56,7 @@ export default function App() {
           <HangingSpiders />
 
           {/* Interactive Silk Spider Cursor (Walking Spider, Spinning Silk Webs & Idle Look-Up) */}
-          <SilkSpiderCursor bounceColor="#e50914" spiderScale={1.35} catchBugs={false} />
+          <SilkSpiderCursor bounceColor="#e50914" spiderScale={1.3} catchBugs={false} opacity={0.85} />
 
           {/* Scroll progress */}
           <ScrollProgress />
