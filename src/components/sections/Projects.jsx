@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import SectionHeading from "../common/SectionHeading";
 import SpiderHolo3D from "../common/SpiderHolo3D";
@@ -968,123 +969,136 @@ export default function Projects() {
         </motion.div>
       </div>
 
-      {/* 4. COMPACT INTERACTIVE COMPONENT LAB MODAL */}
-      <AnimatePresence>
-        {activeLabModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setActiveLabModal(null)}
-            style={{
-              position: "fixed",
-              inset: 0,
-              zIndex: 99999,
-              background: "rgba(3, 5, 10, 0.92)",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "clamp(12px, 2.5vw, 24px)",
-            }}
-          >
-            {/* Modal Inner Wrapper (Prevents Backdrop Click From Closing on Inside Clicks) */}
-            <div
-              onClick={(e) => e.stopPropagation()}
+      {/* 4. COMPACT INTERACTIVE COMPONENT LAB MODAL (Portal to document.body for zero scroll jump & 100% viewport centering) */}
+      {typeof document !== "undefined" && createPortal(
+        <AnimatePresence>
+          {activeLabModal && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActiveLabModal(null)}
               style={{
-                width: "100%",
-                maxWidth: activeLabModal === "spidey-arcade" ? "820px" : "960px",
+                position: "fixed",
+                inset: 0,
+                top: 0,
+                left: 0,
+                width: "100vw",
+                height: "100dvh",
+                zIndex: 99999,
+                background: "rgba(3, 5, 10, 0.94)",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
+                justifyContent: "center",
+                padding: "clamp(8px, 2.5vw, 24px)",
+                overflowY: "auto",
+                WebkitOverflowScrolling: "touch",
               }}
             >
-              {/* Modal Top Control Bar */}
+              {/* Modal Inner Wrapper (Prevents Backdrop Click From Closing on Inside Clicks) */}
               <div
+                onClick={(e) => e.stopPropagation()}
                 style={{
                   width: "100%",
+                  maxWidth: activeLabModal === "spidey-arcade" ? "820px" : "960px",
+                  maxHeight: "calc(100dvh - 20px)",
                   display: "flex",
+                  flexDirection: "column",
                   alignItems: "center",
-                  justifyContent: "space-between",
-                  marginBottom: "10px",
-                  padding: "0 4px",
+                  margin: "auto",
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#00f0ff", boxShadow: "0 0 10px #00f0ff" }} />
-                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.78rem", color: "#fff", fontWeight: 700 }}>
-                    {activeLabModal === "kinetic-matrix"
-                      ? "KINETIC TOPOLOGICAL MATRIX LAB"
-                      : activeLabModal === "spidey-arcade"
-                      ? "🕷️ SPIDER-VERSE WEB SLINGER ARCADE // GAME LAB"
-                      : "SCROLL-LOCKED VIDEO HERO LAB"}
-                  </span>
-                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "var(--color-muted)", background: "rgba(255,255,255,0.06)", padding: "0.15rem 0.5rem", borderRadius: "4px" }}>
-                    INTERACTIVE PREVIEW
-                  </span>
-                </div>
-
-                <button
-                  onClick={() => setActiveLabModal(null)}
+                {/* Modal Top Control Bar */}
+                <div
                   style={{
+                    width: "100%",
                     display: "flex",
                     alignItems: "center",
-                    gap: "0.45rem",
-                    background: "rgba(229, 9, 20, 0.25)",
-                    border: "1px solid var(--color-red)",
-                    color: "#ffffff",
-                    padding: "0.4rem 0.9rem",
-                    borderRadius: "8px",
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "0.75rem",
-                    fontWeight: 700,
-                    cursor: "pointer",
-                    boxShadow: "0 0 15px rgba(229, 9, 20, 0.3)",
-                    transition: "all 0.2s ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "var(--color-red)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "rgba(229, 9, 20, 0.25)";
+                    justifyContent: "space-between",
+                    marginBottom: "10px",
+                    padding: "0 4px",
+                    flexWrap: "wrap",
+                    gap: "0.5rem",
                   }}
                 >
-                  <span>CLOSE (ESC)</span>
-                  <X size={15} />
-                </button>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                    <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#00f0ff", boxShadow: "0 0 10px #00f0ff" }} />
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.78rem", color: "#fff", fontWeight: 700 }}>
+                      {activeLabModal === "kinetic-matrix"
+                        ? "KINETIC TOPOLOGICAL MATRIX LAB"
+                        : activeLabModal === "spidey-arcade"
+                        ? "🕷️ SPIDER-VERSE WEB SLINGER ARCADE // GAME LAB"
+                        : "SCROLL-LOCKED VIDEO HERO LAB"}
+                    </span>
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "var(--color-muted)", background: "rgba(255,255,255,0.06)", padding: "0.15rem 0.5rem", borderRadius: "4px" }}>
+                      INTERACTIVE PREVIEW
+                    </span>
+                  </div>
+
+                  <button
+                    onClick={() => setActiveLabModal(null)}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.45rem",
+                      background: "rgba(229, 9, 20, 0.25)",
+                      border: "1px solid var(--color-red)",
+                      color: "#ffffff",
+                      padding: "0.4rem 0.9rem",
+                      borderRadius: "8px",
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "0.75rem",
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      boxShadow: "0 0 15px rgba(229, 9, 20, 0.3)",
+                      transition: "all 0.2s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = "var(--color-red)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = "rgba(229, 9, 20, 0.25)";
+                    }}
+                  >
+                    <span>CLOSE (ESC)</span>
+                    <X size={15} />
+                  </button>
+                </div>
+
+                {/* Component Container */}
+                <div
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                    height: activeLabModal === "spidey-arcade" ? "min(560px, 78dvh)" : "min(640px, 82dvh)",
+                    borderRadius: "18px",
+                    overflow: "hidden",
+                    border: "1px solid rgba(0, 240, 255, 0.35)",
+                    boxShadow: "0 25px 60px rgba(0,0,0,0.9), 0 0 35px rgba(0, 240, 255, 0.15)",
+                    background: "#000",
+                  }}
+                >
+                  {activeLabModal === "kinetic-matrix" && (
+                    <KineticMatrix title="TOPOLOGY" className="h-full w-full" />
+                  )}
+
+                  {activeLabModal === "scroll-hero" && (
+                    <MusicHero fullBleed={false} style={{ height: "100%", width: "100%" }} />
+                  )}
+
+                  {activeLabModal === "spidey-arcade" && (
+                    <SpideyArcade className="h-full w-full" onClose={() => setActiveLabModal(null)} />
+                  )}
+                </div>
               </div>
-
-              {/* Component Container */}
-              <div
-                style={{
-                  position: "relative",
-                  width: "100%",
-                  height: activeLabModal === "spidey-arcade" ? "min(560px, 76vh)" : "min(640px, 80vh)",
-                  borderRadius: "18px",
-                  overflow: "hidden",
-                  border: "1px solid rgba(0, 240, 255, 0.35)",
-                  boxShadow: "0 25px 60px rgba(0,0,0,0.9), 0 0 35px rgba(0, 240, 255, 0.15)",
-                  background: "#000",
-                }}
-              >
-                {activeLabModal === "kinetic-matrix" && (
-                  <KineticMatrix title="TOPOLOGY" className="h-full w-full" />
-                )}
-
-                {activeLabModal === "scroll-hero" && (
-                  <MusicHero fullBleed={false} style={{ height: "100%", width: "100%" }} />
-                )}
-
-                {activeLabModal === "spidey-arcade" && (
-                  <SpideyArcade className="h-full w-full" onClose={() => setActiveLabModal(null)} />
-                )}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
 
       {/* Global Responsive Styles */}
       <style

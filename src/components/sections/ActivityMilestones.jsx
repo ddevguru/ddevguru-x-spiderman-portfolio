@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import SectionHeading from "../common/SectionHeading";
 import { codingMetrics, competitions } from "../../data/milestones";
@@ -1088,23 +1089,27 @@ export default function ActivityMilestones() {
         </div>
       </div>
 
-      {/* Certificate Lightbox Modal */}
-      <AnimatePresence>
-        {selectedCertModal && (
-          <div
-            style={{
-              position: "fixed",
-              inset: 0,
-              zIndex: 1000,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "1.5rem",
-              background: "rgba(0, 0, 0, 0.85)",
-              backdropFilter: "blur(12px)",
-            }}
-            onClick={() => setSelectedCertModal(null)}
-          >
+      {/* Certificate Lightbox Modal (Portal to document.body) */}
+      {typeof document !== "undefined" && createPortal(
+        <AnimatePresence>
+          {selectedCertModal && (
+            <div
+              style={{
+                position: "fixed",
+                inset: 0,
+                zIndex: 99999,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "clamp(8px, 2.5vw, 20px)",
+                background: "rgba(0, 0, 0, 0.88)",
+                backdropFilter: "blur(18px)",
+                WebkitBackdropFilter: "blur(18px)",
+                overflowY: "auto",
+                WebkitOverflowScrolling: "touch",
+              }}
+              onClick={() => setSelectedCertModal(null)}
+            >
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -1231,7 +1236,9 @@ export default function ActivityMilestones() {
             </motion.div>
           </div>
         )}
-      </AnimatePresence>
-    </section>
-  );
+      </AnimatePresence>,
+      document.body
+    )}
+  </section>
+);
 }

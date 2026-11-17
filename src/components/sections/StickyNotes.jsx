@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import SectionHeading from "../common/SectionHeading";
 import {
@@ -769,10 +770,11 @@ export default function StickyNotes() {
         )}
       </div>
 
-      {/* PIN STICKY NOTE MODAL */}
-      <AnimatePresence>
-        {isModalOpen && (
-          <div className="cert-modal-overlay" onClick={() => setIsModalOpen(false)}>
+      {/* PIN STICKY NOTE MODAL (Portal to document.body) */}
+      {typeof document !== "undefined" && createPortal(
+        <AnimatePresence>
+          {isModalOpen && (
+            <div className="cert-modal-overlay" onClick={() => setIsModalOpen(false)}>
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -1142,9 +1144,11 @@ export default function StickyNotes() {
             </motion.div>
           </div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+      document.body
+    )}
 
-      <div className="glow-divider" />
-    </section>
-  );
+    <div className="glow-divider" />
+  </section>
+);
 }

@@ -388,11 +388,14 @@ img { max-width: 100%; display: block; }
    CERTIFICATE MODAL
    ══════════════════════════════════════════════ */
 .cert-modal-overlay {
-  position: fixed; inset: 0; z-index: 10000;
-  background: rgba(5, 5, 5, 0.85);
+  position: fixed; inset: 0; z-index: 99999;
+  background: rgba(3, 5, 12, 0.94);
   backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
   display: flex; align-items: center; justify-content: center;
-  padding: 2rem;
+  padding: 1rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .cert-modal {
@@ -568,20 +571,6 @@ img { max-width: 100%; display: block; }
 
   .project-card, .gpu-layer {
     will-change: auto !important;
-  }
-
-  /* Content visibility skips layout & paint of off-screen sections until scrolled near viewport */
-  #about,
-  #projects,
-  #vault,
-  #skills,
-  #experience,
-  #education,
-  #certificates,
-  #notes,
-  #contact {
-    content-visibility: auto;
-    contain-intrinsic-size: 1px 700px;
   }
 }
 

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import SectionHeading from "../common/SectionHeading";
 import { codingMetrics, competitions } from "../../data/competitions";
@@ -978,25 +979,32 @@ export default function Competitions() {
       </div>
 
       {/* ========================================================================= */}
-      {/* SPIDER-MAN WEB SUSPENDED REALISTIC CERTIFICATE MODAL */}
+      {/* SPIDER-MAN WEB SUSPENDED REALISTIC CERTIFICATE MODAL (Portal to document.body) */}
       {/* ========================================================================= */}
-      <AnimatePresence>
-        {selectedCert && (
-          <div
-            style={{
-              position: "fixed",
-              inset: 0,
-              zIndex: 9999,
-              display: "flex",
-              alignItems: "center", // Perfectly centered in viewport (No scroll jump!)
-              justifyContent: "center",
-              padding: "1rem",
-              background: "rgba(3, 5, 12, 0.92)",
-              backdropFilter: "blur(16px)",
-              overflow: "hidden", // Never causes outer scroll
-            }}
-            onClick={() => setSelectedCert(null)}
-          >
+      {typeof document !== "undefined" && createPortal(
+        <AnimatePresence>
+          {selectedCert && (
+            <div
+              style={{
+                position: "fixed",
+                inset: 0,
+                top: 0,
+                left: 0,
+                width: "100vw",
+                height: "100dvh",
+                zIndex: 99999,
+                display: "flex",
+                alignItems: "center", // Perfectly centered in viewport
+                justifyContent: "center",
+                padding: "clamp(8px, 2.5vw, 20px)",
+                background: "rgba(3, 5, 12, 0.94)",
+                backdropFilter: "blur(18px)",
+                WebkitBackdropFilter: "blur(18px)",
+                overflowY: "auto",
+                WebkitOverflowScrolling: "touch",
+              }}
+              onClick={() => setSelectedCert(null)}
+            >
             {/* PURE WHITE REALISTIC SPIDER-MAN WEB STRANDS (Shooting from ceiling to modal) */}
             <svg
               style={{
@@ -1339,7 +1347,9 @@ export default function Competitions() {
             </motion.div>
           </div>
         )}
-      </AnimatePresence>
-    </section>
-  );
+      </AnimatePresence>,
+      document.body
+    )}
+  </section>
+);
 }

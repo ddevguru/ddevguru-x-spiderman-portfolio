@@ -92,71 +92,69 @@ export default function HangingSpiders() {
         <Spider key={s.id} {...s} />
       ))}
 
-      {/* Persistent Corner Web-Slinging Spider-Man (Clickable Easter Egg) */}
-      <motion.div
-        onClick={() => {
-          setCornerSpideySwing(true);
-          setTimeout(() => setCornerSpideySwing(false), 1200);
-        }}
-        title="Spider-Man ready for action! Click to swing!"
-        style={{
-          position: "fixed",
-          top: 0,
-          right: isMobile ? "8px" : "clamp(10px, 3vw, 40px)",
-          zIndex: 9994,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          cursor: "pointer",
-          transformOrigin: "top center",
-        }}
-        animate={
-          cornerSpideySwing
-            ? { y: [0, -30, 15, 0], rotate: [0, 360, -10, 0] }
-            : isMobile
-            ? { y: 0, rotate: 0 }
-            : { y: [0, 8, 0], rotate: [-2, 2, -2] }
-        }
-        transition={
-          cornerSpideySwing
-            ? { duration: 0.9, ease: "easeInOut" }
-            : isMobile
-            ? { duration: 0 }
-            : { repeat: Infinity, duration: 5, ease: "easeInOut" }
-        }
-      >
-        {/* Glowing Web Thread */}
-        <div
-          style={{
-            width: "2px",
-            height: "75px",
-            background:
-              "linear-gradient(180deg, rgba(255,255,255,0.9), var(--color-red), rgba(255,255,255,0.3))",
-            boxShadow: "0 0 8px rgba(255,255,255,0.8), 0 0 15px var(--color-red)",
-          }}
-        />
-
-        {/* Upside Down Spidey Mascot */}
+      {/* Persistent Corner Web-Slinging Spider-Man (Clickable Easter Egg - Desktop only so mobile navbar hamburger is never obstructed) */}
+      {!isMobile && (
         <motion.div
-          whileHover={{ scale: 1.15 }}
-          whileTap={{ scale: 0.9 }}
-          style={{
-            marginTop: "-6px",
-            position: "relative",
+          onClick={() => {
+            setCornerSpideySwing(true);
+            setTimeout(() => setCornerSpideySwing(false), 1200);
           }}
+          title="Spider-Man ready for action! Click to swing!"
+          style={{
+            position: "fixed",
+            top: 0,
+            right: "clamp(10px, 3vw, 40px)",
+            zIndex: 9994,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            cursor: "pointer",
+            transformOrigin: "top center",
+          }}
+          animate={
+            cornerSpideySwing
+              ? { y: [0, -30, 15, 0], rotate: [0, 360, -10, 0] }
+              : { y: [0, 8, 0], rotate: [-2, 2, -2] }
+          }
+          transition={
+            cornerSpideySwing
+              ? { duration: 0.9, ease: "easeInOut" }
+              : { repeat: Infinity, duration: 5, ease: "easeInOut" }
+          }
         >
-          <img
-            src="/spiderman-transparent.png"
-            alt="Spider-Man"
+          {/* Glowing Web Thread */}
+          <div
             style={{
-              width: "clamp(55px, 6vw, 75px)",
-              filter:
-                "drop-shadow(0 10px 20px rgba(0,0,0,0.8)) drop-shadow(0 0 15px rgba(229,9,20,0.6))",
-              display: "block",
+              width: "2px",
+              height: "75px",
+              background:
+                "linear-gradient(180deg, rgba(255,255,255,0.9), var(--color-red), rgba(255,255,255,0.3))",
+              boxShadow: "0 0 8px rgba(255,255,255,0.8), 0 0 15px var(--color-red)",
             }}
           />
+
+          {/* Upside Down Spidey Mascot */}
+          <motion.div
+            whileHover={{ scale: 1.15 }}
+            whileTap={{ scale: 0.9 }}
+            style={{
+              marginTop: "-6px",
+              position: "relative",
+            }}
+          >
+            <img
+              src="/spiderman-transparent.png"
+              alt="Spider-Man"
+              style={{
+                width: "clamp(55px, 6vw, 75px)",
+                filter:
+                  "drop-shadow(0 10px 20px rgba(0,0,0,0.8)) drop-shadow(0 0 15px rgba(229,9,20,0.6))",
+                display: "block",
+              }}
+            />
+          </motion.div>
         </motion.div>
-      </motion.div>
+      )}
     </>
   );
 }

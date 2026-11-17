@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import SectionHeading from "../common/SectionHeading";
 import { certificates } from "../../data/certificates";
@@ -216,94 +217,97 @@ export default function Certificates() {
         </motion.div>
       </div>
 
-      {/* Lightbox Modal */}
-      <AnimatePresence>
-        {selectedCert && (
-          <div className="cert-modal-overlay" onClick={closeModal} style={{ overflow: "hidden" }}>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="cert-modal"
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                maxWidth: "680px",
-                width: "92vw",
-                padding: "1.4rem 1.6rem",
-                overflow: "hidden",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <button
-                className="cert-modal-close"
-                onClick={closeModal}
-                aria-label="Close certificate"
-                style={{ top: "1rem", right: "1rem" }}
-              >
-                <X size={15} /> CLOSE (ESC)
-              </button>
-
-              <div style={{ marginTop: "0.5rem", marginBottom: "1rem", textAlign: "center", paddingRight: "5rem" }}>
-                <h3
-                  style={{
-                    fontFamily: "var(--font-display)",
-                    fontSize: "1.2rem",
-                    fontWeight: 700,
-                    color: "var(--color-white)",
-                    marginBottom: "0.2rem",
-                    lineHeight: 1.3,
-                  }}
-                >
-                  {selectedCert.title}
-                </h3>
-                <p
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "0.78rem",
-                    color: "var(--color-purple)",
-                    margin: 0,
-                  }}
-                >
-                  Issued by: {selectedCert.issuer}
-                </p>
-              </div>
-
-              {/* Entire Certificate Image Fits Without Any Scrolling */}
-              <div
+      {/* Lightbox Modal (Portal to document.body for zero-displacement mobile viewport centering) */}
+      {typeof document !== "undefined" && createPortal(
+        <AnimatePresence>
+          {selectedCert && (
+            <div className="cert-modal-overlay" onClick={closeModal} style={{ overflow: "hidden" }}>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                className="cert-modal"
+                onClick={(e) => e.stopPropagation()}
                 style={{
-                  width: "100%",
-                  maxHeight: "min(360px, 48vh)",
-                  borderRadius: "10px",
-                  border: "1px solid rgba(255, 255, 255, 0.15)",
-                  background: "#000000",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  maxWidth: "680px",
+                  width: "92vw",
+                  padding: "1.4rem 1.6rem",
                   overflow: "hidden",
-                  boxShadow: "0 10px 30px rgba(0,0,0,0.8)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
                 }}
               >
-                <img
-                  src={selectedCert.image}
-                  alt={selectedCert.title}
+                <button
+                  className="cert-modal-close"
+                  onClick={closeModal}
+                  aria-label="Close certificate"
+                  style={{ top: "1rem", right: "1rem" }}
+                >
+                  <X size={15} /> CLOSE (ESC)
+                </button>
+
+                <div style={{ marginTop: "0.5rem", marginBottom: "1rem", textAlign: "center", paddingRight: "5rem" }}>
+                  <h3
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: "1.2rem",
+                      fontWeight: 700,
+                      color: "var(--color-white)",
+                      marginBottom: "0.2rem",
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {selectedCert.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "0.78rem",
+                      color: "var(--color-purple)",
+                      margin: 0,
+                    }}
+                  >
+                    Issued by: {selectedCert.issuer}
+                  </p>
+                </div>
+
+                {/* Entire Certificate Image Fits Without Any Scrolling */}
+                <div
                   style={{
-                    width: "auto",
-                    maxWidth: "100%",
-                    height: "auto",
+                    width: "100%",
                     maxHeight: "min(360px, 48vh)",
-                    objectFit: "contain",
-                    display: "block",
-                    margin: "0 auto",
+                    borderRadius: "10px",
+                    border: "1px solid rgba(255, 255, 255, 0.15)",
+                    background: "#000000",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    overflow: "hidden",
+                    boxShadow: "0 10px 30px rgba(0,0,0,0.8)",
                   }}
-                />
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+                >
+                  <img
+                    src={selectedCert.image}
+                    alt={selectedCert.title}
+                    style={{
+                      width: "auto",
+                      maxWidth: "100%",
+                      height: "auto",
+                      maxHeight: "min(360px, 48vh)",
+                      objectFit: "contain",
+                      display: "block",
+                      margin: "0 auto",
+                    }}
+                  />
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
 
       <style dangerouslySetInnerHTML={{__html: `
         .neon-card:hover .cert-hover-overlay {

@@ -60,7 +60,7 @@ export default function Navbar() {
       style={{
         position: "fixed",
         top: 0, left: 0, right: 0,
-        zIndex: 1000,
+        zIndex: 10005,
         height: "72px",
         display: "flex",
         alignItems: "center",
@@ -142,13 +142,20 @@ export default function Navbar() {
           color: "var(--color-white)",
           padding: "0.5rem",
           cursor: "pointer",
-          width: "44px", height: "44px",
+          width: "48px",
+          height: "48px",
+          minWidth: "48px",
+          minHeight: "48px",
           border: "1px solid var(--color-border)",
           borderRadius: "8px",
-          background: "rgba(255,255,255,0.05)",
+          background: "rgba(255,255,255,0.08)",
+          touchAction: "manipulation",
+          position: "relative",
+          zIndex: 10010,
+          WebkitTapHighlightColor: "transparent",
         }}
       >
-        {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+        {mobileOpen ? <X size={22} /> : <Menu size={22} />}
       </button>
 
       {/* Mobile Nav Overlay */}
@@ -158,42 +165,54 @@ export default function Navbar() {
             initial={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
             animate={{ opacity: 1, clipPath: "inset(0 0 0% 0)" }}
             exit={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             style={{
               position: "fixed",
-              inset: 0, top: "72px",
-              background: "rgba(5, 5, 5, 0.98)",
+              inset: 0,
+              top: "72px",
+              height: "calc(100dvh - 72px)",
+              background: "rgba(5, 5, 8, 0.98)",
               backdropFilter: "blur(30px)",
+              WebkitBackdropFilter: "blur(30px)",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              justifyContent: "center",
-              gap: "2.5rem",
-              zIndex: 999,
+              justifyContent: "flex-start",
+              padding: "2rem 1.5rem 5rem 1.5rem",
+              gap: "1.2rem",
+              overflowY: "auto",
+              WebkitOverflowScrolling: "touch",
+              zIndex: 10000,
             }}
           >
             {NAV_ITEMS.map((item, i) => (
               <motion.a
                 key={item.id}
                 href={`#${item.id}`}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05, duration: 0.4, ease: "easeOut" }}
+                transition={{ delay: i * 0.04, duration: 0.3, ease: "easeOut" }}
                 onClick={(e) => { e.preventDefault(); handleNavClick(item.id); }}
                 style={{
                   fontFamily: "var(--font-display)",
-                  fontSize: "2rem",
+                  fontSize: "1.5rem",
                   fontWeight: 600,
                   letterSpacing: "0.1em",
                   color: active === item.id ? "var(--color-white)" : "var(--color-muted)",
-                  position: "relative"
+                  position: "relative",
+                  padding: "0.35rem 1rem",
+                  width: "100%",
+                  textAlign: "center",
+                  borderRadius: "8px",
+                  background: active === item.id ? "rgba(229, 9, 20, 0.12)" : "transparent",
+                  border: active === item.id ? "1px solid rgba(229, 9, 20, 0.3)" : "1px solid transparent",
                 }}
               >
                 <span style={{
                   fontFamily: "var(--font-mono)",
                   fontSize: "0.7rem",
                   color: "var(--color-red)",
-                  marginRight: "1rem",
+                  marginRight: "0.75rem",
                   verticalAlign: "super",
                 }}>
                   0{i + 1}
