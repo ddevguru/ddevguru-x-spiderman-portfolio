@@ -33,7 +33,7 @@ services:
     # Environment Variables for Build & Runtime
     envVars:
       - key: NODE_VERSION
-        value: 20.18.0
+        value: 22.14.0
       - key: VITE_FIREBASE_API_KEY
         value: AIzaSyCiNT_3w98dp0ZVRj3dgiJDvQ4fm03mplk
       - key: VITE_FIREBASE_AUTH_DOMAIN
