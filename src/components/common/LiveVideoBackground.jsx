@@ -4,7 +4,8 @@ import { Film, Play, Pause, Sparkles } from "lucide-react";
 export const SPIDEY_LIVE_VIDEOS = [
   {
     id: "tasm2-swing",
-    title: "TASM 2 City Swing",
+    title: "TASK 2 City Swing",
+    buttonLabel: "TASK",
     tagline: "Andrew Garfield High-Speed Manhattan Freefall",
     videoSrc: "/assets/live-wallpapers/spiderman-tasm2-live-wallpaper.mp4",
     posterSrc: "/assets/live-wallpapers/spiderman-tasm2-live-poster.jpg",
@@ -14,6 +15,7 @@ export const SPIDEY_LIVE_VIDEOS = [
   {
     id: "8k-horizon",
     title: "8K Dusk Horizon",
+    buttonLabel: "8K",
     tagline: "Ultra-HD Skyline Perch & Spider Web Strands",
     videoSrc: "/assets/live-wallpapers/spiderman-8k-pc-live-wallpaper.mp4",
     posterSrc: "/assets/live-wallpapers/spiderman-8k-pc-poster.jpg",
@@ -23,6 +25,7 @@ export const SPIDEY_LIVE_VIDEOS = [
   {
     id: "multiverse-tingle",
     title: "Multiverse Glitch",
+    buttonLabel: "Multiverse",
     tagline: "Miles Morales Spider-Sense Quantum Resonance",
     videoSrc: "/assets/live-wallpapers/spidey-tingle-multiverse-live-wallpaper.mp4",
     posterSrc: "/assets/live-wallpapers/spidey-tingle-multiverse-poster.jpg",
@@ -32,6 +35,7 @@ export const SPIDEY_LIVE_VIDEOS = [
   {
     id: "action-cinematic",
     title: "Action Cinematic",
+    buttonLabel: "Action",
     tagline: "High-Octane Combat & Dynamic Acrobatics",
     videoSrc: "/assets/live-wallpapers/spiderman-action-cinematic-live-wallpaper.mp4",
     posterSrc: "/assets/live-wallpapers/spiderman-action-cinematic-poster.jpg",
@@ -341,7 +345,7 @@ export function LiveVideoHUDController() {
               }}
             >
               <span style={{ color: vid.accentColor }}>●</span>
-              <span>{vid.title.split(" ")[0]}</span>
+              <span>{vid.buttonLabel || vid.title.split(" ")[0]}</span>
             </button>
           );
         })}
